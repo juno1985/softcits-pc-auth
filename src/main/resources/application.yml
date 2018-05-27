@@ -1,0 +1,30 @@
+server:
+  port: 8883
+  servlet:
+    context-path: /auth
+
+spring: 
+    datasource:
+      url: jdbc:mysql://localhost:3306/softcits_pc?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: 123456
+      driverClassName: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+logging:
+  file: logs/pc-core.log 
+  level:
+    root: info
+    org.apache.ibatis: debug
+    java.sql.Connection: debug
+    java.sql.Statement: debug
+    java.sql.PreparedStatement: debug
+    com.alibaba.druid.sql: debug
+    com.alibaba.druid.proxy.jdbc: info
+    org.apache.ibatis.transaction.managed: info
+    druid.sql: info
+

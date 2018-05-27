@@ -1,4 +1,4 @@
-package org.softcits.pc.auth;
+package org.softcits.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

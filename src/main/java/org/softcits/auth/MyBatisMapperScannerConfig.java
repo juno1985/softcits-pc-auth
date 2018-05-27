@@ -1,4 +1,4 @@
-package org.softcits.pc.auth;
+package org.softcits.auth;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -12,7 +12,7 @@ public class MyBatisMapperScannerConfig {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("org.softcits.auth.core.mapper");
+        mapperScannerConfigurer.setBasePackage("org.softcits.auth.mapper");
         return mapperScannerConfigurer;
     }
 }

@@ -15,20 +15,20 @@
 	targetPackage="test.model"：目标包名
 	targetProject="\MBGTestProject\src"：目标工程
 	-->
-    <javaModelGenerator targetPackage="org.softcits.auth.core.model" 
+    <javaModelGenerator targetPackage="org.softcits.auth.model" 
     		targetProject="../src/main/java">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
 	<!-- sqlMapGenerator：sql映射生成策略： -->
-    <sqlMapGenerator targetPackage="org.softcits.auth.core.mapper"  
+    <sqlMapGenerator targetPackage="org.softcits.auth.mapper"  
     	targetProject="../src/main/java">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 
 	<!-- javaClientGenerator:指定mapper接口所在的位置 -->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="org.softcits.auth.core.mapper"  
+    <javaClientGenerator type="XMLMAPPER" targetPackage="org.softcits.auth.mapper"  
     	targetProject="../src/main/java">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>

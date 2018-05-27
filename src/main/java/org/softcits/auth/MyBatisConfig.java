@@ -1,4 +1,4 @@
-package org.softcits.pc.auth;
+package org.softcits.auth;
 
 import java.util.Properties;
 
@@ -52,7 +52,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("org/softcits/auth/core/mapper/**/*Mapper.xml"));
+            bean.setMapperLocations(resolver.getResources("org/softcits/auth/mapper/**/*Mapper.xml"));
             //bean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
             return bean.getObject();
         } catch (Exception e) {
