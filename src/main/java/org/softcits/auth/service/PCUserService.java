@@ -2,6 +2,7 @@ package org.softcits.auth.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.List;
 
 import org.softcits.auth.mapper.MbgRoleMapper;
 import org.softcits.auth.mapper.MbgUserMapper;
@@ -29,6 +30,9 @@ public class PCUserService {
 		mbgUser.setState(StateEnum.INACTIVE.getCode());
 		mbgUser.setRoleId(Integer.parseInt(RoleEnum.STAFF.getCode()));
 		mbgUserMapper.insert(mbgUser);
+	}
+	public List<MbgUser> getAllUsers() {
+		return mbgUserMapper.selectByExample(null);
 	}
 
 }
