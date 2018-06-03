@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.druid.util.StringUtils;
 
 import org.softcits.auth.model.MbgUser;
@@ -73,5 +75,18 @@ public class PCUserController {
 	public ResponseEntity<String> updateUser(@RequestBody MbgUser mbgUser){
 		userSerivce.updateUser(mbgUser);
 		return new ResponseEntity<>("Success", HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="/user/login", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<MbgUser> login(@RequestParam String username, @RequestParam String passwd){
+		MbgUser mbgUser = null;
+		try {
+			mbgUser = userSerivce.login(username, passwd);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(mbgUser, HttpStatus.OK);
 	}
 }

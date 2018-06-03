@@ -1,6 +1,7 @@
 package org.softcits.auth.test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
@@ -38,6 +39,20 @@ public class AuthTest {
 				.param("passwd", "123456")
 				.param("repasswd", "123456")
 				).andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		System.out.println(result);
+	}
+	
+	@Test
+	public void whenLogin() throws UnsupportedEncodingException, Exception {
+		String result = mockMvc.perform(
+				(post("/user/login"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("username", "admin")
+				.param("passwd", "123456")
+				).andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(3))
+				.andExpect(jsonPath("$.username").value("admin"))
 				.andReturn().getResponse().getContentAsString();
 		System.out.println(result);
 	}

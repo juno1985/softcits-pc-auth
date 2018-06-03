@@ -8,6 +8,7 @@ import org.softcits.auth.mapper.MbgRoleMapper;
 import org.softcits.auth.mapper.MbgUserMapper;
 import org.softcits.auth.mapper.UserAndRoleMapper;
 import org.softcits.auth.model.MbgUser;
+import org.softcits.auth.model.MbgUserExample;
 import org.softcits.auth.model.UserAndRole;
 import org.softcits.auth.model.UserUpdateFormModel;
 import org.softcits.pc.mgt.common.SecurityUtil;
@@ -58,6 +59,17 @@ public class PCUserService {
 	}
 	public void updateUser(MbgUser mbgUser) {
 		mbgUserMapper.updateByPrimaryKeySelective(mbgUser);
+	}
+	public MbgUser login(String username, String passwd) throws NoSuchAlgorithmException {
+		MbgUserExample userExa = new MbgUserExample();
+		MbgUserExample.Criteria userCri = userExa.createCriteria();
+		userCri.andUsernameEqualTo(username);
+		List<MbgUser> uList = mbgUserMapper.selectByExample(userExa);
+		if(uList.size() > 0 && SecurityUtil.md5(passwd).equals(uList.get(0).getPasswd())) {
+		
+			return uList.get(0);
+		}
+		return null;
 	}
 
 }
