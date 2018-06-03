@@ -7,10 +7,13 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.alibaba.druid.util.StringUtils;
+
+import org.softcits.auth.model.MbgUser;
 import org.softcits.auth.model.UserAndRole;
 import org.softcits.auth.model.UserUpdateFormModel;
 import org.softcits.auth.service.PCUserService;
@@ -64,5 +67,11 @@ public class PCUserController {
 			result = callback + "(" + result + ")";
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@RequestMapping(path="/user/update", method=RequestMethod.POST)
+	public ResponseEntity<String> updateUser(@RequestBody MbgUser mbgUser){
+		userSerivce.updateUser(mbgUser);
+		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 }

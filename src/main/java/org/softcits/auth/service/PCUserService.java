@@ -56,5 +56,8 @@ public class PCUserService {
 		userUpdateFormModel.setStates(states);
 		return userUpdateFormModel;
 	}
+	public void updateUser(MbgUser mbgUser) {
+		mbgUserMapper.updateByPrimaryKeySelective(mbgUser);
+	}
 
 }
