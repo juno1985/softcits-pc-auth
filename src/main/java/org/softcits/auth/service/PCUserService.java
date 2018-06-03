@@ -3,10 +3,11 @@ package org.softcits.auth.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
-
 import org.softcits.auth.mapper.MbgRoleMapper;
 import org.softcits.auth.mapper.MbgUserMapper;
+import org.softcits.auth.mapper.UserAndRoleMapper;
 import org.softcits.auth.model.MbgUser;
+import org.softcits.auth.model.UserAndRole;
 import org.softcits.pc.mgt.common.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class PCUserService {
 	private MbgUserMapper mbgUserMapper;
 	@Autowired
 	private MbgRoleMapper mbgRoleMapper;
+	@Autowired
+	private UserAndRoleMapper userAndRoleMapper;
 	public void addUser(String username, String passwd) throws NoSuchAlgorithmException {
 		MbgUser mbgUser = new MbgUser();
 		mbgUser.setUsername(username);
@@ -31,8 +34,9 @@ public class PCUserService {
 		mbgUser.setRoleId(Integer.parseInt(RoleEnum.STAFF.getCode()));
 		mbgUserMapper.insert(mbgUser);
 	}
-	public List<MbgUser> getAllUsers() {
-		return mbgUserMapper.selectByExample(null);
+	public List<UserAndRole> getAllUsers() {
+		
+		return userAndRoleMapper.getUsersAndRoles();
 	}
 
 }

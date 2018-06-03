@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.softcits.auth.model.MbgUser;
+import org.softcits.auth.model.UserAndRole;
 import org.softcits.auth.service.PCUserService;
 import org.softcits.pc.mgt.common.SoftcitsJsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class PCUserController {
 	
 	@RequestMapping(path="/user/getAll", method=RequestMethod.GET)
 	public ResponseEntity<String> getAllUsers(){
-		List<MbgUser> uList = userSerivce.getAllUsers();
+		List<UserAndRole> uList = userSerivce.getAllUsers();
 		String users_json = SoftcitsJsonUtil.objectToJson(uList);
 		String result = "get_users(" + users_json + ")";
 		return new ResponseEntity<>(result, HttpStatus.OK);
