@@ -79,14 +79,17 @@ public class PCUserController {
 	
 	@RequestMapping(path="/user/login", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<MbgUser> login(@RequestParam String username, @RequestParam String passwd){
-		MbgUser mbgUser = null;
+	public ResponseEntity<String> login(@RequestParam String username, @RequestParam String passwd){
+		String userJson = null;
 		try {
-			mbgUser = userSerivce.login(username, passwd);
-		} catch (NoSuchAlgorithmException e) {
+			userJson = userSerivce.login(username, passwd);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<>(mbgUser, HttpStatus.OK);
+		if(userJson !=  null)
+			return new ResponseEntity<>(userJson, HttpStatus.OK);
+		else
+			return new ResponseEntity<>("Login Failed", HttpStatus.BAD_REQUEST);
 	}
 }

@@ -51,8 +51,6 @@ public class AuthTest {
 				.param("username", "admin")
 				.param("passwd", "123456")
 				).andExpect(status().isOk())
-				.andExpect(jsonPath("$.id").value(3))
-				.andExpect(jsonPath("$.username").value("admin"))
 				.andReturn().getResponse().getContentAsString();
 		System.out.println(result);
 	}

@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.softcits.auth.mapper.MbgRoleMapper;
 import org.softcits.auth.mapper.MbgUserMapper;
 import org.softcits.auth.mapper.UserAndRoleMapper;
@@ -12,7 +14,11 @@ import org.softcits.auth.model.MbgUserExample;
 import org.softcits.auth.model.UserAndRole;
 import org.softcits.auth.model.UserUpdateFormModel;
 import org.softcits.pc.mgt.common.SecurityUtil;
+import org.softcits.pc.mgt.common.SoftcitsJsonUtil;
+import org.softcits.pc.mgt.common.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +34,10 @@ public class PCUserService {
 	private MbgRoleMapper mbgRoleMapper;
 	@Autowired
 	private UserAndRoleMapper userAndRoleMapper;
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
+	@Value("${USER_ID_REDIS}")
+	private String USER_ID_REDIS;
 	public void addUser(String username, String passwd) throws NoSuchAlgorithmException {
 		MbgUser mbgUser = new MbgUser();
 		mbgUser.setUsername(username);
@@ -60,14 +70,26 @@ public class PCUserService {
 	public void updateUser(MbgUser mbgUser) {
 		mbgUserMapper.updateByPrimaryKeySelective(mbgUser);
 	}
-	public MbgUser login(String username, String passwd) throws NoSuchAlgorithmException {
+	public String login(String username, String passwd) throws NoSuchAlgorithmException {
 		MbgUserExample userExa = new MbgUserExample();
 		MbgUserExample.Criteria userCri = userExa.createCriteria();
 		userCri.andUsernameEqualTo(username);
 		List<MbgUser> uList = mbgUserMapper.selectByExample(userExa);
-		if(uList.size() > 0 && SecurityUtil.md5(passwd).equals(uList.get(0).getPasswd()) && uList.get(0).getState().equals(StateEnum.ACTIVE.getCode())) {
+		MbgUser mbgUser = uList.get(0);
+		//验证登录
+		if(mbgUser != null && SecurityUtil.md5(passwd).equals(mbgUser.getPasswd()) && mbgUser.getState().equals(StateEnum.ACTIVE.getCode())) {
 		
-			return uList.get(0);
+			//登录成功后需要为该用户生成token
+			String uid = UUIDUtil.UUIDGenerator();
+			mbgUser.setPasswd(null);
+			String userJson = SoftcitsJsonUtil.objectToJson(mbgUser);
+			/**
+			 * 写入redis
+			 * key - token id
+			 * value - user in json format
+			 */
+			stringRedisTemplate.opsForValue().set(USER_ID_REDIS+":"+uid, userJson, 15, TimeUnit.MINUTES);
+			return USER_ID_REDIS+":"+uid;
 		}
 		return null;
 	}

@@ -28,3 +28,4 @@ logging:
     org.apache.ibatis.transaction.managed: info
     druid.sql: info
 
+USER_ID_REDIS: user_id
