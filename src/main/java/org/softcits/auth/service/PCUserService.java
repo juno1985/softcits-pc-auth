@@ -93,5 +93,16 @@ public class PCUserService {
 		}
 		return null;
 	}
+	
+	public String getUserByToken(String token) {
+		
+		if(stringRedisTemplate.hasKey(token)) {
+			//重置过期时间
+			stringRedisTemplate.expire(token, 15, TimeUnit.MINUTES);
+			//返回user json数据
+			return stringRedisTemplate.opsForValue().get(token);
+		}
+		return null;
+	}
 
 }

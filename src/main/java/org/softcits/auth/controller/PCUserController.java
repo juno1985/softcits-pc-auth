@@ -92,4 +92,24 @@ public class PCUserController {
 		else
 			return new ResponseEntity<>("Login Failed", HttpStatus.BAD_REQUEST);
 	}
+	
+	//支持JSONP访问
+	@RequestMapping(path="/{token}/token", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getUserByToken(@PathVariable String token, @RequestParam(required=false) String callback){
+		String result = userSerivce.getUserByToken(token);
+		//如果是JSONP访问
+		if(!StringUtils.isEmpty(callback)) {
+			//如果用户存在redis中
+			if(!StringUtils.isEmpty(result)) {
+				result = callback + "(" + result + ")";
+			}
+			
+		}
+		else if(StringUtils.isEmpty(result)){
+			
+			return new ResponseEntity<>("Non-login", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 }
