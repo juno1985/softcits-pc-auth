@@ -104,5 +104,8 @@ public class PCUserService {
 		}
 		return null;
 	}
+	public void logout(String token) {
+		stringRedisTemplate.delete(token);
+	}
 
 }

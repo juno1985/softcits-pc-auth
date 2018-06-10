@@ -112,4 +112,11 @@ public class PCUserController {
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	@RequestMapping(path="/{token}/logout", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> logout(@PathVariable String token){
+		userSerivce.logout(token);
+		return new ResponseEntity<>("Logout Success", HttpStatus.OK);
+	}
 }
