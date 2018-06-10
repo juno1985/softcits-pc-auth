@@ -65,7 +65,7 @@ public class PCUserService {
 		MbgUserExample.Criteria userCri = userExa.createCriteria();
 		userCri.andUsernameEqualTo(username);
 		List<MbgUser> uList = mbgUserMapper.selectByExample(userExa);
-		if(uList.size() > 0 && SecurityUtil.md5(passwd).equals(uList.get(0).getPasswd())) {
+		if(uList.size() > 0 && SecurityUtil.md5(passwd).equals(uList.get(0).getPasswd()) && uList.get(0).getState().equals(StateEnum.ACTIVE.getCode())) {
 		
 			return uList.get(0);
 		}
